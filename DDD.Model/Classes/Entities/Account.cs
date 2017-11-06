@@ -8,7 +8,7 @@ namespace DDD.Model.Classes.Entities
     public class Account
     {
         private decimal _balance;
-        private Guid _accountNo;
+        private Guid _accountId;
         private string _customerRef;
         private IList<Transaction> _transactions;
 
@@ -17,18 +17,18 @@ namespace DDD.Model.Classes.Entities
             _transactions.Add(new Transaction(0m, 0m, "account created", DateTime.Now));
         }
 
-        public Account(Guid Id, decimal balance, IList<Transaction> transactions, string customerRef)
+        public Account(Guid accountId, decimal balance, IList<Transaction> transactions, string customerRef)
         {
-            _accountNo = Id;
+            _accountId = accountId;
             _balance = balance;
             _transactions = transactions;
             _customerRef = customerRef;
         }
 
-        public Guid AccountNo
+        public Guid AccountId
         {
-            get { return _accountNo; }
-            internal set { _accountNo = value; }
+            get { return _accountId; }
+            internal set { _accountId = value; }
         }
 
         public decimal Balance
