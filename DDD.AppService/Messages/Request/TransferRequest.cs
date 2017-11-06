@@ -6,8 +6,8 @@ namespace DDD.AppService.Messages.Request
 {
     public class TransferRequest
     {
-        public Guid AccountNoTo { get; set; }
-        public Guid AccountNoFrom { get; set; }
+        public Guid AccountToNo { get; set; }
+        public Guid AccountFromNo { get; set; }
         public decimal Amount { get; set; }
     }
 }

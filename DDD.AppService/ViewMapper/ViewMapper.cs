@@ -4,7 +4,7 @@ using System.Text;
 using DDD.AppService.ViewModel;
 using DDD.Model.Classes.Entities;
 
-namespace DDD.AppService.ViewMapper
+namespace DDD.AppService
 {
     public static class ViewMapper
     {
