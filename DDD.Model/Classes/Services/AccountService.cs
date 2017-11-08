@@ -23,8 +23,10 @@ namespace DDD.Model.Classes.Services
 
             if (from.CanWithdraw(amount))
             {
-                to.Deposit(amount, $"From {from.CustomerRef}");
+                to.Deposit(amount, $"From {from.CustomerRef}");                
                 from.Withdraw(amount, $"Transfer to {to.CustomerRef}");
+                _accountRepository.Save(to);
+                _accountRepository.Save(from);
             }
             else
             {

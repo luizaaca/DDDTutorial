@@ -2,41 +2,74 @@
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 
-    <div class="jumbotron">
-        <h1>ASP.NET</h1>
-        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS, and JavaScript.</p>
-        <p><a href="http://www.asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-    </div>
+        <div>
+            <fieldset>
+                <legend>Create New Account</legend>
+                <p>
+                    Customer Ref:
+                   <asp:TextBox ID="txtCustomerRef" runat="server" />
+                    <asp:Button ID="btnCreateAccount" runat="server" Text="Create Account" OnClick="btnCreateAccount_Click" />
+                </p>
+            </fieldset>
 
-    <div class="row">
-        <div class="col-md-4">
-            <h2>Getting started</h2>
-            <p>
-                ASP.NET Web Forms lets you build dynamic websites using a familiar drag-and-drop, event-driven model.
-            A design surface and hundreds of controls and components let you rapidly build sophisticated, powerful UI-driven sites with data access.
-            </p>
-            <p>
-                <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301948">Learn more &raquo;</a>
-            </p>
+            <fieldset>
+                <legend>Account Detail</legend>
+                <p>
+                    <asp:DropDownList AutoPostBack="true" ID="ddlAccounts" runat="server" OnSelectedIndexChanged="ddlAccounts_SelectedIndexChanged" />
+                </p>
+                <p>
+                    Account No:
+                   <asp:Label ID="lblAccountNo" runat="server" />
+                </p>
+                <p>
+                    Customer Ref:
+                   <asp:Label ID="lblCustomerRef" runat="server" />
+                </p>
+                <p>
+                    Balance:
+                   <asp:Label ID="lblBalance" runat="server" />
+                </p>
+                <p>
+                    Amount:
+                   <asp:TextBox ID="txtAmount" runat="server" />
+                    &nbsp;
+                   <asp:Button ID="btnWithdrawal" runat="server" Text="Withdrawal" OnClick="btnWithdrawal_Click" />
+                    &nbsp;
+                   <asp:Button ID="btnDeposit" runat="server" Text="Deposit" OnClick="btnDeposit_Click" />
+                </p>
+                <p>
+                    Transfer
+                    <asp:TextBox ID="txtAmountToTransfer" runat="server" />
+                    &nbsp;to
+                    <asp:DropDownList AutoPostBack="true" ID="ddlAccountsToTransferTo" runat="server" />
+                    &nbsp;
+                    <asp:Button ID="btnTransfer" runat="server" Text="Commit" OnClick="btnTransfer_Click" />
+                </p>
+                <p>Transactions</p>
+                <asp:Repeater ID="rptTransactions" runat="server">
+                    <HeaderTemplate>
+                        <table>
+                            <tr>
+                                <td>deposit</td>
+                                <td>withdrawal</td>
+                                <td>reference</td>
+                            </tr>
+                    </HeaderTemplate>
+                    <ItemTemplate>
+                        <tr>
+                            <td><%# Eval("Deposit") %></td>
+                            <td><%# Eval("Withdrawal") %></td>
+                            <td><%# Eval("Reference") %></td>
+                            <td><%# Eval("Date") %></td>
+                        </tr>
+                    </ItemTemplate>
+                    <FooterTemplate>
+                        </table>
+                    </FooterTemplate>
+                </asp:Repeater>
+
+            </fieldset>
         </div>
-        <div class="col-md-4">
-            <h2>Get more libraries</h2>
-            <p>
-                NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.
-            </p>
-            <p>
-                <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301949">Learn more &raquo;</a>
-            </p>
-        </div>
-        <div class="col-md-4">
-            <h2>Web Hosting</h2>
-            <p>
-                You can easily find a web hosting company that offers the right mix of features and price for your applications.
-            </p>
-            <p>
-                <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301950">Learn more &raquo;</a>
-            </p>
-        </div>
-    </div>
+
 
 </asp:Content>

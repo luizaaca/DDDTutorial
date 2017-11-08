@@ -16,11 +16,11 @@ namespace DDD.Repository.Repositories
 
             using (var db = ConnectionFactory.GetConnection())
             {
-                using (var transaction = db.BeginTransaction())
+                using (var transactionScope = db.BeginTransaction())
                 {
-                    db.Execute(query, account);
-                    UpdateTransactionsFor(db, account);
-                    transaction.Commit();
+                    db.Execute(query, account, transactionScope);
+                    UpdateTransactionsFor(db, account, transactionScope);
+                    transactionScope.Commit();
                 }
             }
         }
@@ -40,7 +40,7 @@ namespace DDD.Repository.Repositories
                 {
                     List<dynamic> transactions;
 
-                    var key = new Guid(item.AccountId);
+                    var key = new Guid(Convert.ToString(item.AccountId));
 
                     if (!accountDictionary.TryGetValue(key, out transactions))
                     {
@@ -70,7 +70,7 @@ namespace DDD.Repository.Repositories
 
             using (var db = ConnectionFactory.GetConnection())
             {
-                var savedAccount = db.Query<dynamic>(query, accountId).ToList();
+                var savedAccount = db.Query<dynamic>(query, new { accountId = accountId } ).ToList();
 
                 var transactions = savedAccount.Select(t => new Transaction(t.Deposit, t.Withdrawal, t.Reference, t.Date)).ToList();
 
@@ -86,19 +86,19 @@ namespace DDD.Repository.Repositories
 
             using (var db = ConnectionFactory.GetConnection())
             {
-                using (var transaction = db.BeginTransaction())
+                using (var transactionScope = db.BeginTransaction())
                 {
-                    db.Execute(query, account);
-                    UpdateTransactionsFor(db, account);
-                    transaction.Commit();
+                    db.Execute(query, account, transactionScope);
+                    UpdateTransactionsFor(db, account, transactionScope);
+                    transactionScope.Commit();
                 }
             }
         }
 
-        private void UpdateTransactionsFor(IDbConnection db, Account account)
+        private void UpdateTransactionsFor(IDbConnection db, Account account, IDbTransaction dbTransactionScope)
         {
             var queryLastTransactionTime = "SELECT TOP 1 [Date] FROM Transactions WHERE AccountId = @AccountId ORDER BY [Date] DESC";
-            var lastTransactionTime = db.QuerySingle<DateTime>(queryLastTransactionTime, account);
+            var lastTransactionTime = db.QuerySingleOrDefault<DateTime>(queryLastTransactionTime, account, dbTransactionScope);
             var transactions = account.GetTransactions().Where(t => t.Date > lastTransactionTime).OrderBy(t => t.Date)
                 .Select(t => new
                 {
@@ -110,7 +110,7 @@ namespace DDD.Repository.Repositories
                 }).ToList();
 
             var queryInsert = "insert into Transactions (AccountId, Deposit, Withdrawal, Reference, [Date]) VALUES (@AccountId, @Deposit, @Withdrawal, @Reference, @Date)";
-            db.Execute(queryInsert, transactions);
+            db.Execute(queryInsert, transactions, dbTransactionScope);
         }
     }
 }

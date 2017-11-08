@@ -7,6 +7,6 @@ namespace DDD.AppService.Messages.Response
 {
     public class FindAllAccountResponse : ResponseBase
     {
-        public IList<AccountView> Accounts { get; set; }
+        public IList<AccountView> AccountsViews { get; set; }
     }
 }

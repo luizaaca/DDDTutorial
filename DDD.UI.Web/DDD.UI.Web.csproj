@@ -231,7 +231,12 @@
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\DDD.AppService\DDD.AppService.csproj">
+      <Project>{d4c127bb-f5bf-49f0-a7e9-55c52e818aa5}</Project>
+      <Name>DDD.AppService</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />

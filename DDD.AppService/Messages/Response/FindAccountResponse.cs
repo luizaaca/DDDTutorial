@@ -7,6 +7,6 @@ namespace DDD.AppService.Messages.Response
 {
     public class FindAccountResponse : ResponseBase
     {
-        public AccountView Account { get; set; }
+        public AccountView AccountView { get; set; }
     }
 }

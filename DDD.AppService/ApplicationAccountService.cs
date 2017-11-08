@@ -30,6 +30,7 @@ namespace DDD.AppService
         public AccountCreateResponse CreateAccount(AccountCreateRequest request)
         {
             var response = new AccountCreateResponse();
+            response.Success = true;
 
             try
             {
@@ -70,6 +71,7 @@ namespace DDD.AppService
         public TransferResponse Transfer(TransferRequest request)
         {
             var response = new TransferResponse();
+            response.Success = true;
 
             try
             {
@@ -80,7 +82,7 @@ namespace DDD.AppService
                 response.Success = false;
                 response.Message = $"Insufficient funds in account number {request.AccountFromNo}";
             }
-            catch
+            catch(Exception ex)
             {
                 response.Success = false;
                 response.Message = "Unexpected error";
@@ -92,12 +94,13 @@ namespace DDD.AppService
         public FindAllAccountResponse GetAllAccounts()
         {
             var response = new FindAllAccountResponse();
+            response.Success = true;
 
             try
             {
                 var accountViews = new List<AccountView>();
 
-                response.Accounts = accountViews;
+                response.AccountsViews = accountViews;
 
                 foreach (var account in _accountRepository.FindAll())
                 {
@@ -113,9 +116,10 @@ namespace DDD.AppService
             return response;
         }
 
-        public FindAccountResponse GetAccountByNo(Guid accountNo)
+        public FindAccountResponse GetAccountBy(Guid accountNo)
         {
             var response = new FindAccountResponse();
+            response.Success = true;
 
             try
             {
@@ -127,7 +131,7 @@ namespace DDD.AppService
                     accountView.Transactions.Add(ViewMapper.CreateTransactionViewFrom(transaction));
                 }
 
-                response.Account = accountView;
+                response.AccountView = accountView;
             }
             catch
             {
